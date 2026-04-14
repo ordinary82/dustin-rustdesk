@@ -1,7 +1,12 @@
-# NASM is required to build AOM
-vcpkg_find_acquire_program(NASM)
-get_filename_component(NASM_EXE_PATH ${NASM} DIRECTORY)
-vcpkg_add_to_path(${NASM_EXE_PATH})
+# NASM is only required for x86/x64 assembly; arm/arm64 use NEON via GAS or
+# Clang's integrated assembler. Follows the upstream vcpkg fix pattern used
+# for dav1d (microsoft/vcpkg#39920) and x264.
+set(nasm_archs x86 x64)
+if(VCPKG_TARGET_ARCHITECTURE IN_LIST nasm_archs)
+    vcpkg_find_acquire_program(NASM)
+    get_filename_component(NASM_EXE_PATH ${NASM} DIRECTORY)
+    vcpkg_add_to_path(${NASM_EXE_PATH})
+endif()
 
 # Perl is required to build AOM
 vcpkg_find_acquire_program(PERL)

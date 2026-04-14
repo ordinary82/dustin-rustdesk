@@ -648,6 +648,7 @@ jobs:
           # Install NASM 2.16.x for x86_64 assembly (required by aom and other multimedia libs).
           # Do NOT use `brew install nasm` which installs NASM 3.x.
           # NASM 3.x is a complete rewrite with incompatible CLI options and removed features.
+          # arm64 does not need NASM — the aom portfile gates it on x86/x64 only.
           NASM_VERSION="2.16.03"
           NASM_ZIP="nasm-${NASM_VERSION}-macosx.zip"
           PRIMARY_URL="https://www.nasm.us/pub/nasm/releasebuilds/${NASM_VERSION}/macosx/${NASM_ZIP}"
