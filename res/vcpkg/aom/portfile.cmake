@@ -47,6 +47,13 @@ if(VCPKG_TARGET_ARCHITECTURE STREQUAL "arm" AND VCPKG_TARGET_IS_LINUX)
   set(aom_target_cpu "-DENABLE_NEON=OFF")
 endif()
 
+# macOS ARM64 (Apple Silicon): enable NEON but disable SVE.
+# AOM 3.12+ has SVE optimizations that require arm_neon_sve_bridge.h,
+# which is not available on macOS (it ships with Arm Linux toolchains only).
+if(VCPKG_TARGET_ARCHITECTURE STREQUAL "arm64" AND VCPKG_TARGET_IS_OSX)
+  set(aom_target_cpu "-DENABLE_SVE=OFF")
+endif()
+
 vcpkg_cmake_configure(
     SOURCE_PATH ${SOURCE_PATH}
     OPTIONS
