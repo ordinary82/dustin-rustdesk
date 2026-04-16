@@ -12,6 +12,9 @@ on:
         description: "Nightly is disabled — use rdgen instead. Type YES to force a build anyway."
         required: true
 
+permissions:
+  contents: write
+
 jobs:
   run-flutter-nightly-build:
     if: github.event.inputs.confirm == 'YES'

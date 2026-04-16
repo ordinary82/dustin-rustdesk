@@ -34,7 +34,10 @@ if(SOURCE_PATH MATCHES " ")
     message(FATAL_ERROR "Error: ffmpeg will not build with spaces in the path. Please use a directory with no spaces")
 endif()
 
-if(NOT VCPKG_TARGET_ARCHITECTURE STREQUAL "wasm32")
+# NASM is only needed for x86/x64 assembly optimizations.
+# ARM/ARM64 use NEON via Clang's integrated assembler and do not need NASM.
+set(_nasm_archs x86 x64)
+if(VCPKG_TARGET_ARCHITECTURE IN_LIST _nasm_archs)
     vcpkg_find_acquire_program(NASM)
     get_filename_component(NASM_EXE_PATH "${NASM}" DIRECTORY)
     vcpkg_add_to_path("${NASM_EXE_PATH}")
